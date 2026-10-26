@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portofolio - Muhammad Evan Riyadi</title>
+  <script>document.documentElement.classList.add('js');</script>
+
+  <!-- Font (butuh internet; jika offline otomatis memakai font bawaan) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --putih: #ffffff; --kuning: #ffc400; --kuning-tua: #d99a00; --kuning-muda: #fff6d1;
+      --garis: #f1e5b3; --teks: #2a2410; --teks-lembut: #6e6648;
+      --font-judul: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+      --font-isi: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+    body { font-family: var(--font-isi); color: var(--teks); background: var(--putih); line-height: 1.7; overflow-x: hidden; }
+    a { color: inherit; }
+    a:focus-visible { outline: 3px solid var(--kuning-tua); outline-offset: 3px; }
+    .wadah { width: min(1080px, 100% - 3rem); margin-inline: auto; }
+
+    /* ---------- Bilah progres & navigasi ---------- */
+    .progres { position: fixed; inset: 0 0 auto 0; height: 4px; z-index: 20; background: var(--teks); transform: scaleX(0); transform-origin: left; }
+    .navbar { position: sticky; top: 0; z-index: 10; background: var(--putih); border-bottom: 3px solid var(--kuning); transition: box-shadow .3s; }
+    .navbar.kecil { box-shadow: 0 8px 20px -10px rgba(42, 36, 16, .35); }
+    .navbar .wadah { display: flex; align-items: center; justify-content: space-between; gap: 1rem; height: 64px; transition: height .3s; }
+    .navbar.kecil .wadah { height: 54px; }
+    .merek { font-family: var(--font-judul); font-weight: 800; font-size: 1.15rem; text-decoration: none; white-space: nowrap; }
+    .lambai { display: inline-block; transform-origin: 70% 70%; animation: lambai 2.6s ease-in-out infinite; }
+    .menu { display: flex; gap: .25rem; list-style: none; overflow-x: auto; }
+    .menu a { display: block; padding: .4rem .85rem; border-radius: 999px; text-decoration: none; font-weight: 500; font-size: .95rem; white-space: nowrap; transition: background .25s, transform .25s; }
+    .menu a:hover { background: var(--kuning); transform: translateY(-2px); }
+    .menu a.aktif { background: var(--kuning); font-weight: 600; }
+
+    /* ---------- Section umum ---------- */
+    section { padding: 5rem 0; }
+    section.berlatar { background: var(--kuning-muda); }
+    h2 { font-family: var(--font-judul); font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.15; margin-bottom: 2.5rem; }
+    h2::after { content: ""; display: block; width: 64px; height: 7px; margin-top: .75rem; background: var(--kuning); border-radius: 4px; transition: width .9s var(--ease) .3s; }
+    .js h2.muncul:not(.tampil)::after { width: 0; }
+
+    /* ---------- Section 1: Hero ---------- */
+    #beranda { padding: 4rem 0 5rem; position: relative; overflow: hidden; }
+    .hiasan i { position: absolute; background: var(--kuning); opacity: .3; animation: melayang var(--d, 7s) ease-in-out infinite; }
+    .hiasan i:nth-child(1) { width: 90px; height: 90px; border-radius: 50%; top: 8%; left: 3%; }
+    .hiasan i:nth-child(2) { width: 46px; height: 46px; border-radius: 12px; top: 70%; left: 44%; --d: 9s; animation-name: putar; }
+    .hiasan i:nth-child(3) { width: 130px; height: 130px; border-radius: 50%; background: none; border: 7px solid var(--kuning); bottom: 6%; right: 2%; --d: 8s; }
+    .hiasan i:nth-child(4) { width: 22px; height: 22px; border-radius: 50%; top: 14%; left: 48%; --d: 5s; opacity: .6; }
+    .hero { position: relative; display: grid; grid-template-columns: 1.15fr .85fr; gap: 3rem; align-items: center; }
+    .hero h1 { font-family: var(--font-judul); font-size: clamp(2.6rem, 7vw, 5rem); line-height: 1.02; letter-spacing: -.02em; margin-bottom: 1.25rem; }
+    .kata { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .06em; margin-right: .25em; }
+    .kata span { display: inline-block; transform: translateY(110%); animation: naikKata .9s var(--ease) forwards; animation-delay: calc(.15s + var(--k) * .13s); }
+    .hero .peran { font-size: 1.2rem; color: var(--teks-lembut); max-width: 32ch; min-height: 4.1em; margin-bottom: 1.5rem; animation: naik .8s var(--ease) .7s backwards; }
+    #ketik { color: var(--teks); font-weight: 600; }
+    .kursor { display: inline-block; width: 3px; height: 1.1em; margin-left: 2px; vertical-align: -.2em; background: var(--kuning-tua); animation: kedip 1s steps(1) infinite; }
+    .tombol { display: inline-block; padding: .85rem 1.8rem; background: var(--kuning); color: var(--teks); font-weight: 600; text-decoration: none; border-radius: 999px; box-shadow: 0 0 0 0 rgba(255, 196, 0, .6); transition: background .2s, transform .25s var(--ease); animation: naik .8s var(--ease) .9s backwards, denyutTombol 2.4s ease-out 2s infinite; }
+    .tombol:hover { background: var(--kuning-tua); transform: translateY(-4px) scale(1.04); }
+    .tombol:active { transform: scale(.97); }
+
+    .foto-wadah { position: relative; max-width: 380px; margin-inline: auto; width: 100%; animation: masukFoto 1s var(--ease) .4s backwards, melayang 6s ease-in-out 1.4s infinite; }
+    .foto-wadah::before { content: ""; position: absolute; inset: 22px -22px -22px 22px; background: var(--kuning); border-radius: 28px 28px 120px 28px; animation: morf 8s ease-in-out infinite; }
+    .foto-bingkai { position: relative; aspect-ratio: 4 / 5; border-radius: 28px 28px 120px 28px; overflow: hidden; background: var(--kuning-muda); border: 3px solid var(--teks); transition: transform .25s ease-out; }
+    .foto-bingkai img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .6s var(--ease); }
+    .foto-bingkai:hover img { transform: scale(1.06); }
+    .foto-bingkai .foto-alt { position: absolute; inset: 0; opacity: 0; transition: opacity .5s ease, transform .6s var(--ease); }
+    .foto-bingkai.aktif .foto-alt { opacity: 1; }
+    @media (hover: hover) { .foto-bingkai:hover .foto-alt { opacity: 1; } }
+    .foto-kosong { display: none; position: absolute; inset: 0; place-items: center; text-align: center; padding: 1.5rem; color: var(--teks-lembut); font-weight: 500; }
+
+    /* ---------- Pita berjalan ---------- */
+    .pita { background: var(--teks); color: var(--kuning); overflow: hidden; white-space: nowrap; padding: .9rem 0; font-family: var(--font-judul); font-weight: 700; font-size: 1.15rem; }
+    .jalur { display: flex; width: max-content; animation: geser 30s linear infinite; }
+    .pita:hover .jalur { animation-play-state: paused; }
+    .jalur span { padding-inline: 1.25rem; }
+
+    /* ---------- Section 2: Biodata ---------- */
+    .daftar-bio { list-style: none; display: grid; gap: .9rem; max-width: 820px; }
+    .baris-bio { overflow: hidden; background: var(--putih); border: 2px solid var(--kuning); border-radius: 18px; transition: transform .3s var(--ease), box-shadow .3s; }
+    .baris-bio:hover { transform: translateX(8px); box-shadow: -5px 5px 0 var(--kuning); }
+    .bar-kepala { position: relative; display: grid; grid-template-columns: 2.9rem 1fr auto; column-gap: 1rem; align-items: center; width: 100%; padding: .85rem 1.25rem 1rem .85rem; border: 0; font: inherit; color: inherit; text-align: left; cursor: pointer; background: linear-gradient(110deg, transparent 40%, rgba(255, 196, 0, .4) 50%, transparent 60%) no-repeat 150% 0 / 250% 100%, var(--putih); transition: background-position .9s var(--ease); }
+    .baris-bio:hover .bar-kepala { background-position: -150% 0; }
+    .bar-kepala:focus-visible { outline: 3px solid var(--kuning-tua); outline-offset: -6px; }
+    .bar-kepala::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--kuning-tua); transform-origin: left; transition: transform 1.2s var(--ease) calc(.4s + var(--i, 0) * .11s); }
+    .js .baris-bio:not(.tampil) .bar-kepala::after { transform: scaleX(0); }
+    .ikon { grid-area: 1 / 1 / span 2; display: grid; place-items: center; width: 2.9rem; height: 2.9rem; border-radius: 50%; background: var(--kuning); font-size: 1.25rem; animation: goyang 3.4s ease-in-out infinite; animation-delay: calc(var(--i, 0) * -.7s); transition: transform .4s var(--ease); }
+    .baris-bio:hover .ikon { transform: rotate(-12deg) scale(1.15); }
+    .bar-label { grid-area: 1 / 2; font-size: .8rem; line-height: 1.3; color: var(--teks-lembut); }
+    .bar-nilai { grid-area: 2 / 2; font-weight: 600; line-height: 1.4; }
+    .panah { grid-area: 1 / 3 / span 2; width: 10px; height: 10px; border: solid var(--teks); border-width: 0 3px 3px 0; transform: translateY(-3px) rotate(45deg); transition: transform .4s var(--ease); }
+    .baris-bio.buka .panah { transform: translateY(3px) rotate(225deg); }
+    .bar-isi { display: grid; grid-template-rows: 0fr; visibility: hidden; background: var(--kuning-muda); transition: grid-template-rows .45s var(--ease), visibility 0s .45s; }
+    .bar-isi > div { overflow: hidden; }
+    .baris-bio.buka .bar-isi { grid-template-rows: 1fr; visibility: visible; transition-delay: 0s; }
+    .detail { list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 1rem 1.5rem; padding: 1.15rem 1.25rem 1.3rem; }
+    .detail dt { font-size: .8rem; line-height: 1.3; color: var(--teks-lembut); }
+    .detail dd { font-weight: 600; }
+    .detail a { text-decoration: underline 2px var(--kuning-tua); text-underline-offset: 3px; }
+    .detail a:hover { background: var(--kuning); }
+    .chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chips li { padding: .35rem .95rem; background: var(--kuning); border-radius: 999px; font-weight: 600; transition: transform .25s var(--ease); }
+    .chips li:hover { transform: translateY(-3px) rotate(-3deg); }
+    .baris-bio.buka .detail > * { animation: detail .5s var(--ease) backwards; animation-delay: calc(.15s + var(--j, 0) * .08s); }
+    @keyframes detail { from { opacity: 0; transform: translateY(12px); } }
+    @keyframes goyang { 50% { translate: 0 -4px; } }
+
+    /* ---------- Latar hidup Section Biodata ---------- */
+    /* ---------- Latar hidup untuk SEMUA section ---------- */
+    .hidup { position: relative; overflow: hidden; isolation: isolate; }
+    section.hidup { background-image: linear-gradient(120deg, #ffffff 0%, #fff7d6 40%, #fffdf1 70%, #ffffff 100%); background-size: 250% 250%; animation: gradGeser 16s ease-in-out infinite; }
+    section.berlatar.hidup { background-image: linear-gradient(120deg, #fff6d1 0%, #ffe9a3 35%, #fff1bd 65%, #fff6d1 100%); }
+    .hidup::before { content: ""; position: absolute; inset: 0; z-index: -2; background-image: var(--pola); background-size: var(--ukuran, 30px 30px); animation: titikGeser 22s linear infinite; -webkit-mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); mask-image: linear-gradient(180deg, transparent, #000 15%, #000 85%, transparent); }
+    .hidup::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle 300px at var(--mx, 75%) var(--my, 25%), rgba(255, 196, 0, .4), transparent 70%); }
+    #beranda { --pola: radial-gradient(rgba(217, 154, 0, .28) 2px, transparent 2.6px); }
+    #biodata { --pola: radial-gradient(rgba(217, 154, 0, .32) 2px, transparent 2.6px); }
+    #pendidikan { --pola: linear-gradient(rgba(217, 154, 0, .16) 1px, transparent 1px), linear-gradient(90deg, rgba(217, 154, 0, .16) 1px, transparent 1px); --ukuran: 44px 44px; --geser: 44px 88px; }
+    #organisasi { --pola: linear-gradient(135deg, rgba(255, 196, 0, .22) 25%, transparent 25% 50%, rgba(255, 196, 0, .22) 50% 75%, transparent 75%); --ukuran: 44px 44px; --geser: 88px 0; }
+    #prestasi { --pola: conic-gradient(rgba(255, 196, 0, .16) 25%, transparent 0 50%, rgba(255, 196, 0, .16) 0 75%, transparent 0); --ukuran: 64px 64px; --geser: 64px 128px; }
+    #sosial { --pola: radial-gradient(rgba(217, 154, 0, .3) 3px, transparent 3.6px); --ukuran: 38px 38px; --geser: 38px 76px; }
+
+    /* Partikel yang naik pelan-pelan (dibuat otomatis oleh JavaScript) */
+    .partikel { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; container-type: size; }
+    .partikel i { position: absolute; left: var(--x); bottom: -70px; width: var(--s); height: var(--s); border-radius: 50%; background: var(--wr, var(--kuning)); opacity: 0; animation: naikPartikel var(--d) linear var(--w) infinite; }
+    .partikel.gelembung i, .partikel i.g { background: rgba(255, 196, 0, .16); border: 2px solid rgba(217, 154, 0, .55); }
+    .partikel.konfeti i, .partikel i.k { height: calc(var(--s) * .55); border-radius: 3px; }
+    .partikel.titik i { width: calc(var(--s) * .35); height: calc(var(--s) * .35); }
+    @keyframes naikPartikel {
+      0% { transform: translate3d(0, 0, 0) rotate(0deg); opacity: 0; }
+      12%, 88% { opacity: var(--o, .6); }
+      100% { transform: translate3d(var(--g, 40px), -900px, 0) rotate(var(--p, 360deg)); transform: translate3d(var(--g, 40px), calc(-100cqh - 140px), 0) rotate(var(--p, 360deg)); opacity: 0; }
+    }
+
+    .bio-hiasan { position: absolute; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+    .bio-hiasan i { position: absolute; display: block; animation: var(--a, melayang) var(--d, 8s) ease-in-out infinite; animation-delay: var(--w, 0s); }
+    .bio-hiasan .blob { border-radius: 50%; background: var(--kuning); filter: blur(46px); opacity: .5; }
+    .bio-hiasan .blob:nth-child(1) { width: 340px; height: 340px; top: -90px; right: -70px; --a: hanyut; --d: 14s; }
+    .bio-hiasan .blob:nth-child(2) { width: 280px; height: 280px; bottom: -80px; left: -60px; background: #ffb300; --a: hanyut; --d: 17s; --w: -5s; opacity: .4; }
+    .bio-hiasan .cincin { border: 6px solid var(--kuning); border-radius: 50%; opacity: .55; }
+    .bio-hiasan .cincin:nth-of-type(1) { width: 110px; height: 110px; top: 12%; left: 5%; --d: 9s; }
+    .bio-hiasan .cincin:nth-of-type(2) { width: 70px; height: 70px; bottom: 14%; right: 8%; --d: 7s; --w: -2s; border-color: var(--kuning-tua); }
+    .bio-hiasan .kotak { width: 42px; height: 42px; border-radius: 11px; background: var(--kuning); opacity: .6; --a: putar; }
+    .bio-hiasan .kotak:nth-of-type(1) { top: 62%; left: 7%; --d: 11s; }
+    .bio-hiasan .kotak:nth-of-type(2) { top: 20%; right: 10%; --d: 13s; --w: -4s; width: 30px; height: 30px; border-radius: 50%; }
+    .bio-hiasan .plus { width: 30px; height: 30px; opacity: .7; --d: 6s; }
+    .bio-hiasan .plus::before, .bio-hiasan .plus::after { content: ""; position: absolute; background: var(--kuning-tua); border-radius: 3px; }
+    .bio-hiasan .plus::before { left: 0; right: 0; top: 12px; height: 6px; }
+    .bio-hiasan .plus::after { top: 0; bottom: 0; left: 12px; width: 6px; }
+    .bio-hiasan .plus:nth-of-type(1) { top: 42%; right: 4%; }
+    .bio-hiasan .plus:nth-of-type(2) { bottom: 8%; left: 40%; --w: -3s; }
+    .bio-hiasan .garis { width: 220px; height: 14px; border-radius: 8px; background: repeating-linear-gradient(135deg, var(--kuning) 0 10px, transparent 10px 20px); opacity: .55; transform: rotate(-18deg); --a: geserSamping; --d: 9s; top: 30%; left: -40px; }
+    @keyframes gradGeser { 50% { background-position: 100% 100%; } }
+    @keyframes titikGeser { to { background-position: var(--geser, 30px 60px); } }
+    @keyframes hanyut { 0%, 100% { transform: translate(0, 0) scale(1); } 33% { transform: translate(-40px, 30px) scale(1.12); } 66% { transform: translate(30px, -20px) scale(.92); } }
+    @keyframes geserSamping { 50% { transform: translateX(60px) rotate(-18deg); } 0%, 100% { transform: translateX(0) rotate(-18deg); } }
+
+    /* ---------- Section 3: Pendidikan ---------- */
+    .garis-waktu { list-style: none; position: relative; padding-left: 2.25rem; max-width: 720px; }
+    .garis-waktu::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 4px; background: var(--kuning); border-radius: 2px; transform-origin: top; transition: transform 1.6s ease-in-out; }
+    .js .garis-waktu:not(.tampil)::before { transform: scaleY(0); }
+    .garis-waktu li { position: relative; padding-bottom: 2.25rem; }
+    .garis-waktu li:last-child { padding-bottom: 0; }
+    .garis-waktu li::before { content: ""; position: absolute; left: -2.25rem; top: .45rem; width: 18px; height: 18px; border-radius: 50%; background: var(--putih); border: 4px solid var(--kuning-tua); transition: background .3s, transform .3s; }
+    .garis-waktu li:hover::before { background: var(--kuning); transform: scale(1.35); }
+    .garis-waktu li:first-child::before { animation: denyutDot 2s ease-out infinite; }
+    .tahun { display: inline-block; padding: .1rem .8rem; margin-bottom: .4rem; background: var(--kuning); border-radius: 999px; font-size: .85rem; font-weight: 600; }
+    .garis-waktu h3, .prestasi-kartu h3, .org-isi h3 { font-family: var(--font-judul); font-size: 1.25rem; line-height: 1.3; }
+    .garis-waktu p, .org-isi p, .prestasi-kartu p { color: var(--teks-lembut); }
+
+    /* ---------- Section 4: Organisasi ---------- */
+    .org-daftar { list-style: none; background: var(--putih); border-radius: 20px; border: 2px solid var(--kuning); overflow: hidden; }
+    .org-daftar li { position: relative; display: grid; grid-template-columns: 11rem 1fr; align-content: center; gap: 1.5rem; min-height: 10rem; padding: 1.5rem 1.75rem; border-bottom: 1px solid var(--garis); cursor: default; transition: background .3s, padding .4s var(--ease); }
+    .org-daftar li:last-child { border-bottom: 0; }
+    .org-daftar li:hover, .org-daftar li:focus-visible, .org-daftar li.aktif { background: var(--kuning-muda); padding-left: 2.4rem; padding-right: calc(190px + 3.2rem); }
+    .org-daftar li:focus-visible, .prestasi-kartu:focus-visible { outline: 3px solid var(--kuning-tua); outline-offset: -6px; }
+    .org-gambar { position: absolute; right: 1.6rem; top: 50%; width: 190px; height: 128px; border-radius: 16px; overflow: hidden; border: 3px solid var(--teks); background: linear-gradient(135deg, var(--kuning), #ffe08a); box-shadow: 6px 6px 0 var(--kuning-tua); opacity: 0; visibility: hidden; pointer-events: none; transform: translateY(-50%) translateX(50px) rotate(9deg) scale(.7); transition: opacity .4s, transform .6s var(--ease), visibility 0s .6s; }
+    .org-daftar li:hover .org-gambar, .org-daftar li:focus-visible .org-gambar, .org-daftar li.aktif .org-gambar { opacity: 1; visibility: visible; transform: translateY(-50%) rotate(-3deg); transition-delay: 0s; }
+    .org-gambar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .org-gambar span, .prestasi-gambar span { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; font-size: 2.2rem; line-height: 1.3; }
+    .org-gambar small, .prestasi-gambar small { display: block; font-size: .7rem; font-weight: 600; color: var(--teks-lembut); }
+    .org-periode { font-weight: 600; }
+    .org-isi h3 span { color: var(--kuning-tua); }
+
+    /* ---------- Section 5: Prestasi ---------- */
+    .prestasi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; }
+    .prestasi-kartu { position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; min-height: 250px; padding: 1.5rem; border: 2px solid var(--garis); border-top: 8px solid var(--kuning); border-radius: 14px; background: var(--putih); transition: transform .3s var(--ease), box-shadow .3s, border-color .3s; }
+    .prestasi-kartu:hover { transform: translateY(-8px) rotate(-.6deg); box-shadow: 0 18px 28px -14px rgba(217, 154, 0, .55); border-color: var(--kuning); }
+    .prestasi-kartu .tahun { margin-bottom: .75rem; }
+    .prestasi-kartu > h3, .prestasi-kartu > p, .prestasi-kartu > .tahun { position: relative; z-index: 2; }
+    .prestasi-kartu h3, .prestasi-kartu p { transition: color .4s; }
+    .prestasi-gambar { position: absolute; inset: 0; z-index: 1; background: linear-gradient(135deg, #d99a00, #2a2410); clip-path: circle(0% at var(--cx, 50%) var(--cy, 50%)); transition: clip-path .7s var(--ease); pointer-events: none; }
+    .prestasi-gambar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+    .prestasi-gambar span { inset: 1rem 1rem auto auto; display: block; font-size: 2.4rem; }
+    .prestasi-gambar small { color: #ffe9a3; }
+    .prestasi-gambar::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(42, 36, 16, .45), rgba(42, 36, 16, .88)); }
+    .prestasi-kartu:hover .prestasi-gambar, .prestasi-kartu:focus-visible .prestasi-gambar, .prestasi-kartu.aktif .prestasi-gambar { clip-path: circle(150% at var(--cx, 50%) var(--cy, 50%)); }
+    .prestasi-kartu:hover h3, .prestasi-kartu:focus-visible h3, .prestasi-kartu.aktif h3 { color: #fff; }
+    .prestasi-kartu:hover p, .prestasi-kartu:focus-visible p, .prestasi-kartu.aktif p { color: #f6e9b8; }
+    .prestasi-kartu h3 { margin-bottom: .35rem; }
+
+    /* ---------- Section 6: Sosial media ---------- */
+    .sosial-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 1.5rem; }
+    .sosial-kartu { position: relative; display: flex; flex-direction: column; gap: .2rem; padding: 1.75rem 1.5rem 1.5rem; background: var(--putih); border: 2px solid var(--kuning); border-radius: 20px; text-decoration: none; overflow: hidden; transition: transform .35s var(--ease), box-shadow .35s, border-color .35s; }
+    .sosial-kartu::before { content: ""; position: absolute; inset: auto 0 0 0; height: 0; background: var(--warna, var(--kuning)); opacity: .08; transition: height .4s var(--ease); }
+    .sosial-kartu:hover { transform: translateY(-8px) rotate(-.8deg); box-shadow: -6px 8px 0 var(--kuning); border-color: var(--teks); }
+    .sosial-kartu:hover::before { height: 100%; }
+    .sosial-ikon { display: grid; place-items: center; width: 3.6rem; height: 3.6rem; margin-bottom: .9rem; border-radius: 16px; background: var(--kuning); color: var(--teks); transition: background .3s, color .3s, transform .4s var(--ease); }
+    .sosial-ikon svg { width: 1.8rem; height: 1.8rem; }
+    .sosial-kartu:hover .sosial-ikon { background: var(--warna); color: #fff; transform: rotate(-10deg) scale(1.1); }
+    .sosial-kartu h3 { position: relative; font-family: var(--font-judul); font-size: 1.25rem; line-height: 1.3; }
+    .sosial-kartu p { position: relative; color: var(--teks-lembut); font-size: .95rem; word-break: break-all; }
+    .sosial-buka { position: relative; margin-top: .9rem; font-weight: 600; font-size: .9rem; }
+    .sosial-buka span { display: inline-block; transition: transform .3s var(--ease); }
+    .sosial-kartu:hover .sosial-buka span { transform: translate(4px, -4px); }
+    .sosial-email { margin-top: 2rem; color: var(--teks-lembut); }
+    .sosial-email a { font-weight: 600; color: var(--teks); text-decoration: underline 2px var(--kuning-tua); text-underline-offset: 3px; }
+    .sosial-email a:hover { background: var(--kuning); }
+
+    footer { position: relative; background: linear-gradient(100deg, #2a2410, #3d3316, #2a2410); background-size: 200% 100%; animation: gradGeser 10s ease-in-out infinite; color: #f6efd2; padding: 2rem 0; text-align: center; font-size: .9rem; }
+    footer::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, transparent, var(--kuning), transparent) 0 0 / 40% 100% no-repeat; animation: kilau 4s ease-in-out infinite; }
+    @keyframes kilau { from { background-position: -50% 0; } to { background-position: 150% 0; } }
+
+    /* ---------- Muncul saat di-scroll (hanya aktif jika JavaScript jalan) ---------- */
+    .js .muncul { opacity: 0; }
+    .js .muncul.tampil { opacity: 1; animation: naik .8s var(--ease) backwards; animation-delay: calc(var(--i, 0) * 110ms); }
+    .js .muncul.kiri.tampil { animation-name: dariKiri; }
+    .js .muncul.pop.tampil { animation-name: pop; }
+
+    @keyframes naik { from { opacity: 0; transform: translateY(28px); } }
+    @keyframes dariKiri { from { opacity: 0; transform: translateX(-40px); } }
+    @keyframes pop { from { opacity: 0; transform: translateY(30px) scale(.88); } }
+    @keyframes naikKata { to { transform: none; } }
+    @keyframes masukFoto { from { opacity: 0; transform: translateX(60px) rotate(5deg) scale(.92); } }
+    @keyframes melayang { 50% { transform: translateY(-14px); } }
+    @keyframes putar { 50% { transform: translateY(-20px) rotate(180deg); } 100% { transform: rotate(360deg); } }
+    @keyframes morf { 50% { border-radius: 120px 28px 28px 80px; } }
+    @keyframes kedip { 50% { opacity: 0; } }
+    @keyframes geser { to { transform: translateX(calc(-100% / 6)); } }
+    @keyframes lambai { 0%, 60%, 100% { transform: rotate(0); } 10%, 30% { transform: rotate(16deg); } 20%, 40% { transform: rotate(-10deg); } 50% { transform: rotate(8deg); } }
+    @keyframes denyutTombol { 0% { box-shadow: 0 0 0 0 rgba(255, 196, 0, .6); } 70%, 100% { box-shadow: 0 0 0 16px rgba(255, 196, 0, 0); } }
+    @keyframes denyutDot { 0% { box-shadow: 0 0 0 0 rgba(217, 154, 0, .6); } 70%, 100% { box-shadow: 0 0 0 12px rgba(217, 154, 0, 0); } }
+
+    /* ---------- Responsif ---------- */
+    @media (max-width: 820px) {
+      section { padding: 3.5rem 0; }
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero .foto-wadah { order: -1; max-width: 300px; }
+      .hero .peran { min-height: 0; }
+      .org-daftar li { grid-template-columns: 1fr; gap: .15rem; min-height: 0; }
+      .org-daftar li:hover, .org-daftar li:focus-visible, .org-daftar li.aktif { padding-right: 1.75rem; }
+      .org-gambar { position: relative; right: auto; top: auto; width: 100%; height: 0; border-width: 0; box-shadow: none; transform: none; transition: height .5s var(--ease), margin .5s var(--ease), opacity .4s, visibility 0s .5s; }
+      .org-daftar li:hover .org-gambar, .org-daftar li:focus-visible .org-gambar, .org-daftar li.aktif .org-gambar { height: 170px; margin-top: .8rem; border-width: 3px; transform: none; }
+      .navbar .wadah, .navbar.kecil .wadah { height: 56px; }
+      .merek { display: none; }
+    }
+
+    /* ---------- Hormati pengguna yang mematikan animasi ---------- */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; animation-delay: 0s !important; transition-duration: .01ms !important; }
+      .jalur { animation: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="progres" aria-hidden="true"></div>
+
+  <!-- ================= NAVIGASI ================= -->
+  <header class="navbar">
+    <div class="wadah">
+      <a class="merek" href="#beranda">Haloo <span class="lambai" aria-hidden="true">👋</span></a>
+      <nav aria-label="Menu utama">
+        <ul class="menu">
+          <li><a href="#beranda">Beranda</a></li>
+          <li><a href="#biodata">Biodata</a></li>
+          <li><a href="#pendidikan">Pendidikan</a></li>
+          <li><a href="#organisasi">Organisasi</a></li>
+          <li><a href="#prestasi">Prestasi</a></li>
+          <li><a href="#sosial">Sosial media</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= SECTION 1: FOTO & NAMA ================= -->
+    <section id="beranda" class="hidup" data-latar="campur">
+      <div class="hiasan" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <div class="wadah hero">
+        <div>
+          <h1>MUHAMMAD EVAN RIYADI</h1>
+          <!-- Kata-kata yang diketik bisa diubah di bagian <script> paling bawah (daftar "frasa") -->
+          <p class="peran">Mahasiswa Sistem Informasi yang <span id="ketik">suka belajar hal baru</span><span class="kursor" aria-hidden="true"></span></p>
+          <a class="tombol" href="#biodata">Kenali saya</a>
+        </div>
+
+        <div class="foto-wadah">
+          <div class="foto-bingkai">
+            <!-- Simpan foto Anda di folder yang sama dengan file ini -->
+            <img src="foto evan.jpeg" alt="Foto Muhammad Evan Riyadi"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+            <div class="foto-kosong">Letakkan foto Anda di sini<br>(foto evan.jpeg)</div>
+            <!-- Foto kedua yang muncul saat kursor di atas foto. Simpan di folder yang sama: foto evan polisi.jpeg -->
+            <img class="foto-alt" src="evan akpol.png" alt="Muhammad Evan Riyadi berseragam polisi" onerror="this.remove()">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pita berjalan (diperbanyak otomatis oleh JavaScript) -->
+    <div class="pita" aria-hidden="true">
+      <div class="jalur"><span>Sistem Informasi</span><span>✦</span><span>Mahasiswa</span><span>✦</span><span>Api yang membara</span><span>✦</span></div>
+    </div>
+
+    <!-- ================= SECTION 2: BIODATA LENGKAP ================= -->
+    <section id="biodata" class="berlatar hidup" data-latar="titik">
+      <div class="bio-hiasan" aria-hidden="true">
+        <i class="blob"></i><i class="blob"></i>
+        <i class="cincin"></i><i class="cincin"></i>
+        <i class="kotak"></i><i class="kotak"></i>
+        <i class="plus"></i><i class="plus"></i>
+        <i class="garis"></i>
+      </div>
+      <div class="wadah">
+        <h2>Biodata lengkap</h2>
+        <ul class="daftar-bio" data-susun="kiri">
+          <li class="baris-bio">
+            <button class="bar-kepala" type="button" aria-expanded="false" aria-controls="det-nama">
+              <span class="ikon" aria-hidden="true">👤</span>
+              <span class="bar-label">Nama lengkap</span>
+              <span class="bar-nilai">Muhammad Evan Riyadi</span>
+              <span class="panah" aria-hidden="true"></span>
+            </button>
+            <div class="bar-isi" id="det-nama"><div>
+              <dl class="detail">
+                <div><dt>Nama panggilan</dt><dd>Evan</dd></div>
+                <div><dt>Status</dt><dd>Mahasiswa Sistem Informasi</dd></div>
+                <div><dt>Kewarganegaraan</dt><dd>Indonesia</dd></div>
+              </dl>
+            </div></div>
+          </li>
+          <li class="baris-bio">
+            <button class="bar-kepala" type="button" aria-expanded="false" aria-controls="det-lahir">
+              <span class="ikon" aria-hidden="true">🎂</span>
+              <span class="bar-label">Tempat, tanggal lahir</span>
+              <span class="bar-nilai">Pemangkat, 7 Maret 2008</span>
+              <span class="panah" aria-hidden="true"></span>
+            </button>
+            <div class="bar-isi" id="det-lahir"><div>
+              <dl class="detail">
+                <div><dt>Tempat lahir</dt><dd>Pemangkat</dd></div>
+                <div><dt>Tanggal lahir</dt><dd>7 Maret 2008</dd></div>
+              </dl>
+            </div></div>
+          </li>
+          <li class="baris-bio">
+            <button class="bar-kepala" type="button" aria-expanded="false" aria-controls="det-alamat">
+              <span class="ikon" aria-hidden="true">📍</span>
+              <span class="bar-label">Alamat</span>
+              <span class="bar-nilai">Jl. sungai raya dalam,srikandi 2 , kuburaya</span>
+              <span class="panah" aria-hidden="true"></span>
+            </button>
+            <div class="bar-isi" id="det-alamat"><div>
+              <dl class="detail">
+                <div><dt>Jalan</dt><dd>Jl. sungai raya dalam</dd></div>
+                <div><dt>Kota</dt><dd>srikandi,srikandi 2</dd></div>
+                <div><dt>Provinsi</dt><dd>kuburaya</dd></div>
+                <div><dt>Kode pos</dt><dd>78393</dd></div>
+              </dl>
+            </div></div>
+          </li>
+          <li class="baris-bio">
+            <button class="bar-kepala" type="button" aria-expanded="false" aria-controls="det-hobi">
+              <span class="ikon" aria-hidden="true">🎯</span>
+              <span class="bar-label">Hobi</span>
+              <span class="bar-nilai">Tidur, olahraga, main game</span>
+              <span class="panah" aria-hidden="true"></span>
+            </button>
+            <div class="bar-isi" id="det-hobi"><div>
+              <ul class="detail chips">
+                <li>😴 Tidur</li>
+                <li>🏃 Olahraga</li>
+                <li>🎮 Main Game</li>
+              </ul>
+            </div></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 3: RIWAYAT PENDIDIKAN ================= -->
+    <section id="pendidikan" class="hidup" data-latar="gelembung">
+      <div class="wadah">
+        <h2>Riwayat pendidikan</h2>
+        <ol class="garis-waktu" data-susun="kiri">
+          <li>
+            <span class="tahun">2026 - sekarang</span>
+            <h3>Universitas Tanjungpura</h3>
+            <p>S1 Sistem Informasi</p>
+          </li>
+          <li>
+            <span class="tahun">2023 - 2026</span>
+            <h3>SMA Negeri 1 Pemangkat</h3>
+            <p>Jurusan ips</p>
+          </li>
+          <li>
+            <span class="tahun">2020 - 2023</span>
+            <h3>MTS N 1 Sambas</h3>
+            <p>Lulus dengan baik</p>
+          </li>
+          <li>
+            <span class="tahun">2014 - 2020</span>
+            <h3>SD Negeri 3 Pemangkat</h3>
+            <p>Pendidikan dasar</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 4: RIWAYAT ORGANISASI ================= -->
+    <section id="organisasi" class="berlatar hidup" data-latar="titik">
+      <div class="wadah">
+        <h2>Riwayat organisasi</h2>
+        <ul class="org-daftar" data-susun="kiri">
+          <li tabindex="0">
+            <div class="org-periode">2023 - 2024</div>
+            <div class="org-isi">
+              <h3>Anggota <span>-</span> Purna Paskibra Pemangkat</h3>
+              <p>mengabdi selama 1 tahun.</p>
+            </div>
+            <div class="org-gambar" aria-hidden="true"><span>🏛️<small>org-1.jpg</small></span><img src="purna paskibra.jpeg" alt="Foto Himpunan Mahasiswa" onerror="this.remove()"></div>
+          </li>
+          <li tabindex="0">
+            <div class="org-periode">2023 - 2025</div>
+            <div class="org-isi">
+              <h3>upacara <span>-</span> Paskibra sekolah</h3>
+              <p>Mengelola kegiatan upacara harian di sekolah.</p>
+            </div>
+            <div class="org-gambar" aria-hidden="true"><span>📝<small>org-2.jpg</small></span><img src="pasmansa 1.jpeg" alt="Foto BEM" onerror="this.remove()"></div>
+          </li>
+          <li tabindex="0">
+            <div class="org-periode">sekarang - 2030</div>
+            <div class="org-isi">
+              <h3>Kabid organisasi <span>-</span> Muaythai KAB.SAMBAS</h3>
+              <p>Bagian anggota , ikut mengelola kegiatan.</p>
+            </div>
+            <div class="org-gambar" aria-hidden="true"><span>🎓<small>org-3.jpg</small></span><img src="muaythai 1.jpeg" alt="Foto OSIS" onerror="this.remove()"></div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 5: RIWAYAT PRESTASI ================= -->
+    <section id="prestasi" class="hidup" data-latar="konfeti">
+      <div class="wadah">
+        <h2>Riwayat prestasi</h2>
+        <div class="prestasi-grid" data-susun="pop">
+          <article class="prestasi-kartu" tabindex="0">
+            <span class="tahun">2023</span>
+            <h3>Paskibra kecamatan Pemangkat</h3>
+            <p>Tingkat kecamatan, diselenggarakan oleh Dinas kecamatan</p>
+            <div class="prestasi-gambar" aria-hidden="true"><span>🏆<small>paskibra 2023</small></span><img src="paskibra 2023.jpeg" alt="Foto Juara 1 Lomba Karya Tulis Ilmiah" onerror="this.remove()"></div>
+          </article>
+          <article class="prestasi-kartu" tabindex="0">
+            <span class="tahun">2025</span>
+            <h3>Juara 2 kick boxing kerjurda sekalimantan barat</h3>
+            <p>Tingkat daerah.</p>
+            <div class="prestasi-gambar" aria-hidden="true"><span>🥈<small>prestasi-2.jpg</small></span><img src="kickboxing1.jpeg" alt="Foto Juara 2 Hackathon Nasional" onerror="this.remove()"></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= SECTION 6: SOSIAL MEDIA ================= -->
+    <!-- Ganti nomor WhatsApp dan username di href & teks di bawah dengan milik Anda -->
+    <section id="sosial" class="berlatar hidup" data-latar="gelembung">
+      <div class="wadah">
+        <h2>Sosial media</h2>
+        <div class="sosial-grid" data-susun="pop">
+          <a class="sosial-kartu" style="--warna:#25D366" href="https://wa.me/6283159030464" target="_blank" rel="noopener">
+            <span class="sosial-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+            <h3>WhatsApp</h3>
+            <p>0831-5903-0464</p>
+            <span class="sosial-buka">Kirim pesan <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="sosial-kartu" style="--warna:linear-gradient(45deg,#f09433,#dc2743,#bc1888)" href="https://www.instagram.com/_evanryd?rpxt=MThpdHBwMGdmcm85ZA==" target="_blank" rel="noopener">
+            <span class="sosial-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1" fill="currentColor" stroke="none"/></svg></span>
+            <h3>Instagram</h3>
+            <p>@_evanryd</p>
+            <span class="sosial-buka">Lihat profil <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="sosial-kartu" style="--warna:#111111" href="https://www.tiktok.com/@nasi.kun1ng?_r=1&_t=ZS-9AljyoHa1Fn" target="_blank" rel="noopener">
+            <span class="sosial-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z"/></svg></span>
+            <h3>TikTok</h3>
+            <p>@nasi.kun1ng</p>
+            <span class="sosial-buka">Lihat profil <span aria-hidden="true">↗</span></span>
+          </a>
+          <a class="sosial-kartu" style="--warna:#24292f" href="https://github.com/mevanriyadi-cell" target="_blank" rel="noopener">
+            <span class="sosial-ikon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></span>
+            <h3>GitHub</h3>
+            <p><github class="com">
+            <mevanriyadi-cell></mevanriyadi-cell></p>
+            <span class="sosial-buka">Lihat repositori <span aria-hidden="true">↗</span></span>
+          </a>
+        </div>
+        <p class="sosial-email">Atau lewat email: <a href="mailto:H1101261086@student.untan.ac.id">H1101261086@student.untan.ac.id</a></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wadah">&copy; <span id="tahun-footer">2026</span> Muhammad Evan Riyadi. Semua hak dilindungi.</div>
+  </footer>
+
+  <script>
+    (function () {
+      var kurang = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('tahun-footer').textContent = new Date().getFullYear();
+
+      /* 1. Judul dipecah per kata supaya bisa "naik" satu per satu */
+      var h1 = document.querySelector('.hero h1');
+      h1.innerHTML = h1.textContent.trim().split(/\s+/).map(function (k, i) {
+        return '<span class="kata"><span style="--k:' + i + '">' + k + '</span></span>';
+      }).join('');
+
+      /* 2. Teks mengetik - ubah isi "frasa" sesuka Anda */
+      var frasa = ['suka belajar hal baru', 'terus berkembang', 'siap berkolaborasi'];
+      var el = document.getElementById('ketik');
+      if (!kurang) {
+        var f = 0, h = 0, hapus = false;
+        el.textContent = '';
+        (function ketik() {
+          var t = frasa[f], jeda = hapus ? 35 : 70;
+          h += hapus ? -1 : 1;
+          el.textContent = t.slice(0, h);
+          if (!hapus && h === t.length) { hapus = true; jeda = 1600; }
+          else if (hapus && h === 0) { hapus = false; f = (f + 1) % frasa.length; jeda = 350; }
+          setTimeout(ketik, jeda);
+        })();
+      }
+
+      /* 3. Pita berjalan: gandakan isinya agar tidak terputus */
+      var jalur = document.querySelector('.jalur');
+      jalur.innerHTML = jalur.innerHTML.repeat(6);
+
+      /* 4. Muncul saat di-scroll, dengan jeda berurutan per daftar */
+      document.querySelectorAll('[data-susun]').forEach(function (c) {
+        Array.prototype.forEach.call(c.children, function (x, i) {
+          x.classList.add('muncul', c.dataset.susun);
+          x.style.setProperty('--i', Math.min(i, 6));
+        });
+      });
+      var target = document.querySelectorAll('h2, .muncul, .garis-waktu');
+      document.querySelectorAll('h2').forEach(function (e) { e.classList.add('muncul'); });
+      if ('IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (es) {
+          es.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add('tampil'); io.unobserve(e.target); }
+          });
+        }, { threshold: .15, rootMargin: '0px 0px -6% 0px' });
+        target.forEach(function (e) { io.observe(e); });
+      } else {
+        target.forEach(function (e) { e.classList.add('tampil'); });
+      }
+
+      /* 4b. Bar biodata: klik untuk membuka detail (satu terbuka dalam satu waktu) */
+      document.querySelectorAll('.detail').forEach(function (d) {
+        Array.prototype.forEach.call(d.children, function (x, j) { x.style.setProperty('--j', j); });
+      });
+      var barBio = document.querySelectorAll('.baris-bio');
+      barBio.forEach(function (li) {
+        li.querySelector('.bar-kepala').addEventListener('click', function () {
+          var buka = !li.classList.contains('buka');
+          barBio.forEach(function (o) {
+            o.classList.remove('buka');
+            o.querySelector('.bar-kepala').setAttribute('aria-expanded', 'false');
+          });
+          if (buka) { li.classList.add('buka'); this.setAttribute('aria-expanded', 'true'); }
+        });
+      });
+
+      /* 4c. Latar hidup: partikel melayang + cahaya kuning mengikuti kursor */
+      var warna = ['#ffc400', '#ffc400', '#d99a00', '#ffe08a', '#2a2410'];
+      var bisaHover = matchMedia('(hover: hover)').matches;
+      document.querySelectorAll('.hidup').forEach(function (sec) {
+        var tipe = sec.dataset.latar;
+        if (!kurang && tipe) {
+          var w = document.createElement('div');
+          w.className = 'partikel ' + tipe;
+          w.setAttribute('aria-hidden', 'true');
+          for (var q = 0, n = tipe === 'campur' ? 20 : 14; q < n; q++) {
+            var pt = document.createElement('i'), r = Math.random;
+            if (tipe === 'campur') pt.className = r() < .5 ? 'g' : 'k';
+            pt.style.cssText = '--x:' + (r() * 96).toFixed(1) + '%;--s:' + (10 + r() * 34).toFixed(0) + 'px;--d:' + (9 + r() * 13).toFixed(1) + 's;--w:' + (-r() * 20).toFixed(1) + 's;--g:' + ((r() - .5) * 120).toFixed(0) + 'px;--o:' + (.35 + r() * .5).toFixed(2) + ';--p:' + ((r() - .5) * 720).toFixed(0) + 'deg;--wr:' + warna[(r() * warna.length) | 0];
+            w.appendChild(pt);
+          }
+          sec.insertBefore(w, sec.firstChild);
+        }
+        if (!kurang && bisaHover) {
+          sec.addEventListener('pointermove', function (e) {
+            var r = sec.getBoundingClientRect();
+            sec.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+            sec.style.setProperty('--my', (e.clientY - r.top) + 'px');
+          });
+        }
+      });
+
+      /* 4d. Gambar muncul saat kursor di atas baris organisasi / kartu prestasi (di layar sentuh: ketuk) */
+      document.querySelectorAll('.prestasi-kartu').forEach(function (k) {
+        k.addEventListener('pointerenter', function (e) {
+          var r = k.getBoundingClientRect();
+          k.style.setProperty('--cx', (e.clientX - r.left) + 'px');
+          k.style.setProperty('--cy', (e.clientY - r.top) + 'px');
+        });
+      });
+      if (!bisaHover) {
+        var barisGbr = document.querySelectorAll('.org-daftar li, .prestasi-kartu');
+        barisGbr.forEach(function (el) {
+          el.addEventListener('click', function () {
+            var buka = !el.classList.contains('aktif');
+            Array.prototype.forEach.call(el.parentNode.children, function (o) { o.classList.remove('aktif'); });
+            if (buka) el.classList.add('aktif');
+          });
+        });
+      }
+
+      /* 5. Bilah progres, navbar mengecil, menu aktif mengikuti scroll */
+      var bar = document.querySelector('.progres'), nav = document.querySelector('.navbar');
+      var tautan = Array.prototype.slice.call(document.querySelectorAll('.menu a'));
+      var bagian = tautan.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+      function gulir() {
+        var maks = document.documentElement.scrollHeight - innerHeight;
+        bar.style.transform = 'scaleX(' + (maks > 0 ? scrollY / maks : 0) + ')';
+        nav.classList.toggle('kecil', scrollY > 20);
+        var aktif = 0;
+        bagian.forEach(function (s, i) { if (s.getBoundingClientRect().top < innerHeight * .4) aktif = i; });
+        tautan.forEach(function (t, i) {
+          t.classList.toggle('aktif', i === aktif);
+          t.setAttribute('aria-current', i === aktif ? 'true' : 'false');
+        });
+      }
+      addEventListener('scroll', gulir, { passive: true });
+      gulir();
+
+      /* 5b. Di layar sentuh (tanpa kursor): ketuk foto untuk berganti */
+      if (!matchMedia('(hover: hover)').matches) {
+        var bingkai = document.querySelector('.foto-bingkai');
+        bingkai.addEventListener('click', function () { bingkai.classList.toggle('aktif'); });
+      }
+
+      /* 6. Foto miring mengikuti kursor (hanya di perangkat dengan mouse) */
+      if (!kurang && matchMedia('(hover: hover)').matches) {
+        var wadah = document.querySelector('.foto-wadah'), foto = document.querySelector('.foto-bingkai');
+        wadah.addEventListener('pointermove', function (e) {
+          var r = wadah.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+          foto.style.transform = 'perspective(800px) rotateY(' + x * 12 + 'deg) rotateX(' + -y * 12 + 'deg)';
+        });
+        wadah.addEventListener('pointerleave', function () { foto.style.transform = ''; });
+      }
+    })();
+  </script>
+</body>
+</html>
